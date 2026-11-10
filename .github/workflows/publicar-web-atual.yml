@@ -25,13 +25,18 @@ jobs:
       - name: Obter ficheiros validados
         uses: actions/checkout@v4
 
+      - name: Preparar apenas ficheiros Web
+        run: |
+          mkdir _site
+          rsync -a --exclude='.git/' --exclude='.github/' --exclude='_site/' ./ _site/
+
       - name: Preparar GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Preparar artefacto
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
 
       - name: Publicar no GitHub Pages
         id: deployment
